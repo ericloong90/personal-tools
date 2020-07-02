@@ -8,12 +8,15 @@ const { buildSchema } = require('graphql');
  */
 const schema = buildSchema(`
   type ZTStatus {
-    online: String
+    deviceName: String!
+    uid: String!
+    online: Boolean!
+    localIPAddress: String!
   }
 
   type Query {
     procurementCalculator(valueToCalculate: Float): Float
-    checkZTStatus: String
+    checkZTStatus(onlineOnly: Boolean): [ZTStatus]!
   }
 `);
 

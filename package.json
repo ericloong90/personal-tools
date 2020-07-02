@@ -10,7 +10,10 @@
     "graphql": "^14.6.0"
   },
   "scripts": {
-    "develop": "nodemon app.js",
+    "develop": "nodemon --inspect app.js",
     "start": "node app.js"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2"
   }
 }

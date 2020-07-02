@@ -4,7 +4,14 @@ const https = require('https');
 const zerotierNetworkID = process.env.ZEROTIER_NETWORK_ID;
 const zerotierAPIToken = process.env.ZEROTIER_API_TOKEN;
 
-module.exports = () => {
+const checkIfInstMacMini = name => {
+  if (name.split(' ').indexOf('[INST]') >= 0) {
+    return true;
+  }
+  return false;
+};
+
+module.exports = ({ onlineOnly = null }) => {
   return new Promise((resolve, reject) => {
     https
       .get(
@@ -22,8 +29,31 @@ module.exports = () => {
           });
 
           response.on('end', () => {
-            console.log(JSON.parse(data));
-            resolve('Pinged');
+            resolve(
+              JSON.parse(data)
+                // Check if entries are Instructor Mac Minis
+                .filter(({ description }) => {
+                  return checkIfInstMacMini(description);
+                })
+                // Check if there's a query for online only clients
+                .filter(({ online }) => {
+                  if (onlineOnly === null) {
+                    return true;
+                  } else if (onlineOnly && online) {
+                    return true;
+                  } else {
+                    return false;
+                  }
+                })
+                .map(({ description, name, online, config: { ipAssignments } }) => {
+                  return {
+                    deviceName: description,
+                    uid: name,
+                    online,
+                    localIPAddress: ipAssignments[0],
+                  };
+                })
+            );
           });
         }
       )
@@ -31,6 +61,4 @@ module.exports = () => {
         reject(error);
       });
   });
-
-  return process.env.ZEROTIER_API_TOKEN;
 };
