@@ -1,4 +1,4 @@
-const { buildSchema } = require('graphql');
+const { gql } = require('apollo-server');
 
 /**
  * TODO: Add interface for nested types here. Need to add multiple fields here for fields
@@ -6,7 +6,7 @@ const { buildSchema } = require('graphql');
  * Also need to add functionality to filter computers based on the online status, groups
  * i.e. [INST], or just basically list all - also not an exhaustive list
  */
-const schema = buildSchema(`
+const typeDefs = gql`
   type ZTStatus {
     deviceName: String!
     uid: String!
@@ -17,7 +17,8 @@ const schema = buildSchema(`
   type Query {
     procurementCalculator(valueToCalculate: Float): Float
     checkZTStatus(onlineOnly: Boolean): [ZTStatus]!
+    momSPassStatus: String
   }
-`);
+`;
 
-module.exports = schema;
+module.exports = typeDefs;

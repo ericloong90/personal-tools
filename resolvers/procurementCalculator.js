@@ -6,16 +6,14 @@ const formulaeForProcurementFees = (value, exchangeRate) => {
   return (0.044 * value + 1.2 * exchangeRate) / 0.956;
 };
 
-module.exports = ({ valueToCalculate = 369.95 }) => {
-  let valueToReturn = 0;
-
+module.exports = (_, { valueToCalculate = 369.95 }) => {
   return new Promise((resolve, reject) => {
     // Attempts to retrieve the exchange rate for USD to MYR
     https
-      .get('https://api.exchangeratesapi.io/latest?symbols=MYR&base=USD', response => {
+      .get('https://api.exchangeratesapi.io/latest?symbols=MYR&base=USD', (response) => {
         let data = '';
 
-        response.on('data', chunk => {
+        response.on('data', (chunk) => {
           data += chunk;
         });
 
@@ -28,7 +26,7 @@ module.exports = ({ valueToCalculate = 369.95 }) => {
           resolve(procurementFees.toFixed(2));
         });
       })
-      .on('error', error => {
+      .on('error', (error) => {
         reject(error);
       });
   });

@@ -1,32 +1,21 @@
-const express = require('express');
-const graphqlHTTP = require('express-graphql');
+const { ApolloServer, makeExecutableSchema } = require('apollo-server');
+const { applyMiddleware } = require('graphql-middleware');
 
-const schema = require('./schema');
+const typeDefs = require('./schema');
 const resolvers = require('./resolvers');
 
-const app = express();
-
-app.get('/', (req, res) => {
-  res.send(
-    JSON.stringify({
-      message: 'Navigate to /graphql endpoint for GraphQL queries',
-    })
-  );
-});
-
-app.use(
-  '/graphql',
-  graphqlHTTP(() => {
-    return {
-      schema,
-      rootValue: {
-        ...resolvers,
-      },
-      graphiql: {},
-    };
-  })
+const schema = applyMiddleware(
+  makeExecutableSchema({
+    typeDefs,
+    resolvers,
+  }),
 );
 
-app.listen(process.env.PORT || 3000, () => {
-  console.log('Server is running');
+const server = new ApolloServer({
+  schema,
+  cors: true,
+});
+
+server.listen({ port: process.env.PORT || 4000 }).then(({ url }) => {
+  console.log(`Server is listening at ${url}`);
 });

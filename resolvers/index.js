@@ -1,7 +1,11 @@
 const procurementCalculator = require('./procurementCalculator');
 const checkZTStatus = require('./checkZTStatus');
+const momSPassStatus = require('./momSPassStatus');
 
 module.exports = {
-  procurementCalculator,
-  checkZTStatus,
+  Query: {
+    procurementCalculator,
+    checkZTStatus,
+    momSPassStatus,
+  },
 };
