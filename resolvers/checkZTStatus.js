@@ -1,17 +1,19 @@
-require('dotenv').config();
+require('dotenv').config({
+  path: '/Users/d4rkness/code/personal-tools/.env',
+});
 const https = require('https');
 
 const zerotierNetworkID = process.env.ZEROTIER_NETWORK_ID;
 const zerotierAPIToken = process.env.ZEROTIER_API_TOKEN;
 
-const checkIfInstMacMini = name => {
+const checkIfInstMacMini = (name) => {
   if (name.split(' ').indexOf('[INST]') >= 0) {
     return true;
   }
   return false;
 };
 
-module.exports = ({ onlineOnly = null }) => {
+module.exports = (_, { onlineOnly = null }) => {
   return new Promise((resolve, reject) => {
     https
       .get(
@@ -21,10 +23,10 @@ module.exports = ({ onlineOnly = null }) => {
             Authorization: `bearer ${zerotierAPIToken}`,
           },
         },
-        response => {
+        (response) => {
           let data = '';
 
-          response.on('data', chunk => {
+          response.on('data', (chunk) => {
             data += chunk;
           });
 
@@ -39,11 +41,11 @@ module.exports = ({ onlineOnly = null }) => {
                 .filter(({ online }) => {
                   if (onlineOnly === null) {
                     return true;
-                  } else if (onlineOnly && online) {
-                    return true;
-                  } else {
-                    return false;
                   }
+                  if (onlineOnly && online) {
+                    return true;
+                  }
+                  return false;
                 })
                 .map(({ description, name, online, config: { ipAssignments } }) => {
                   return {
@@ -52,12 +54,12 @@ module.exports = ({ onlineOnly = null }) => {
                     online,
                     localIPAddress: ipAssignments[0],
                   };
-                })
+                }),
             );
           });
-        }
+        },
       )
-      .on('error', error => {
+      .on('error', (error) => {
         reject(error);
       });
   });

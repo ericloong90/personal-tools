@@ -18,6 +18,7 @@ const typeDefs = gql`
     procurementCalculator(valueToCalculate: Float): Float
     checkZTStatus(onlineOnly: Boolean): [ZTStatus]!
     momSPassStatus: String
+    smuDataAnalytics(symbol: String!, weekends: Boolean): String
   }
 `;
 

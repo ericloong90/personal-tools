@@ -4,11 +4,14 @@
   "main": "app.js",
   "license": "MIT",
   "dependencies": {
+    "apollo-datasource-rest": "^0.9.3",
     "apollo-server": "^2.15.1",
     "cheerio": "^1.0.0-rc.3",
+    "csv-writer": "^1.6.0",
     "dotenv": "^8.2.0",
     "graphql": "^14.6.0",
     "graphql-middleware": "^4.0.2",
+    "moment": "^2.27.0",
     "node-fetch": "^2.6.0",
     "request": "^2.88.2"
   },
