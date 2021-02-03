@@ -15,7 +15,7 @@ const typeDefs = gql`
   }
 
   type Query {
-    procurementCalculator(valueToCalculate: Float): Float
+    procurementCalculator(munmun: Boolean, valueToCalculate: Float): Float
     checkZTStatus(onlineOnly: Boolean): [ZTStatus]!
     momSPassStatus: String
     smuDataAnalytics(symbol: String!, weekends: Boolean): String

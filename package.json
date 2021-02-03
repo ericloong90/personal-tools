@@ -16,8 +16,8 @@
     "request": "^2.88.2"
   },
   "scripts": {
-    "develop": "nodemon --inspect app.js",
-    "start": "node app.js"
+    "develop": "nodemon --inspect --http-parser=legacy app.js",
+    "start": "node --http-parser=legacy app.js"
   },
   "devDependencies": {
     "babel-eslint": "^10.1.0",

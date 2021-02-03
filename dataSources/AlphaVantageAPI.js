@@ -10,8 +10,6 @@ class AlphaVantageAPI extends RESTDataSource {
   }
 
   async daily(stockSymbol) {
-    console.log(process.env.ALPHAVANTAGE_API_KEY);
-
     return this.get(
       `query?function=TIME_SERIES_DAILY&symbol=${stockSymbol}&outputsize=full&apikey=${process.env.ALPHAVANTAGE_API_KEY}`,
     );
