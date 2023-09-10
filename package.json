@@ -13,7 +13,8 @@
     "graphql-middleware": "^4.0.2",
     "moment": "^2.27.0",
     "node-fetch": "^2.6.0",
-    "request": "^2.88.2"
+    "request": "^2.88.2",
+    "xml2js": "^0.6.2"
   },
   "scripts": {
     "develop": "nodemon --inspect --http-parser=legacy app.js",

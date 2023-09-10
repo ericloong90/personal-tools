@@ -7,6 +7,11 @@ const { gql } = require('apollo-server');
  * i.e. [INST], or just basically list all - also not an exhaustive list
  */
 const typeDefs = gql`
+  type StatusMessage {
+    message: String!
+    success: Boolean!
+  }
+
   type ZTStatus {
     deviceName: String!
     uid: String!
@@ -14,11 +19,17 @@ const typeDefs = gql`
     localIPAddress: String!
   }
 
+  type PokemonTools {
+    reverseGPXFile: StatusMessage!
+  }
+
   type Query {
     procurementCalculator(munmun: Boolean, valueToCalculate: Float): Float
     checkZTStatus(onlineOnly: Boolean): [ZTStatus]!
     momSPassStatus: String
     smuDataAnalytics(symbol: String!, weekends: Boolean): String
+
+    pokemonTools: PokemonTools!
   }
 `;
 
